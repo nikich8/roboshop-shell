@@ -22,7 +22,7 @@ VALIDATE(){
         exit 1
         
     else
-        echo -e "$2...$G SUCEESS $N"
+        echo -e "$2...$G SUCCESS $N"
     fi      
 }
 
@@ -35,10 +35,10 @@ else
 fi
 
 dnf module disable nodejs -y &>> $LOGFILE
-VALIDATE $? "desabling current nodejs"
+VALIDATE $? "Desabling current Nodejs"
 
 dnf module enable nodejs:18 -y &>> $LOGFILE
-VALIDATE $? "enabling  nodejs:18"
+VALIDATE $? "enabling  Nodejs:18"
 
 dnf install nodejs -y &>> $LOGFILE
 VALIDATE $? "Installing nodejs:18"
@@ -51,7 +51,7 @@ then
 else
     echo -e "Roboshop user already exist $Y SKINPING $N"
 fi
-    
+
 mkdir -p /app &>> $LOGFILE
 VALIDATE $? "Creating app directory"
 
@@ -67,6 +67,7 @@ npm install &>> $LOGFILE
 VALIDATE $? "Installing dependencies"
 #absolute path,becoz catalogue exist there
 cp /home/centos/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+
 VALIDATE $? "copying catalogue service file"
 
 systemctl daemon-reload &>> $LOGFILE
@@ -79,7 +80,7 @@ systemctl start catalogue &>> $LOGFILE
 VALIDATE $? "Starting catalogue"
 
 cp /home/centos/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
-VALIDATE $? "copying mongo.repo"
+VALIDATE $? "copying mongodb repo"
 
 dnf install mongodb-org-shell -y &>> $LOGFILE
 VALIDATE $? "Installing mongodb client"
