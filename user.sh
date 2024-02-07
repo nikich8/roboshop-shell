@@ -35,7 +35,7 @@ else
 fi
 
 dnf module disable nodejs -y &>> $LOGFILE
-VALIDATE $? "Desabling current Nodejs"
+VALIDATE $? "Desabling current Nodejs" "thrid"
 
 dnf module enable nodejs:18 -y &>> $LOGFILE
 VALIDATE $? "enabling  Nodejs:18"
@@ -66,9 +66,7 @@ VALIDATE $? "Unziping user"
 npm install &>> $LOGFILE
 VALIDATE $? "Installing dependencies"
 
-
-cp /home/centos/roboshop-shell.service /etc/systemd/system/user.service
-
+cp /home/centos/roboshop-shell/user.service /etc/systemd/system/user.service &>> $LOGFILE
 VALIDATE $? "copying user service file"
 
 systemctl daemon-reload &>> $LOGFILE
