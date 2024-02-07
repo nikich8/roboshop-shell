@@ -9,13 +9,12 @@ N="\e[0m"
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
-
 exec &>LOGFILE
 
 echo "script started exicuting at $TIMESTAMP" &>> $LOGFILE
 
 
-VALIDATE(){
+VALIDATE(){ #script validation
     if [ $1 -ne 0 ]
     then
         echo -e "$2...$R FAILED $N"
@@ -38,16 +37,16 @@ dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y
 VALIDATE $? "Installing Remi release"
 
 dnf module enable redis:remi-6.2 -y
-VALIDATE $? "Enabling redis"
+VALIDATE $? "enabling redis"
 
 dnf install redis -y
-VALIDATE $? "installing redis"
+VALIDATE $? "Installing redis"
 
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis/.conf
 VALIDATE $? "allowing remote connections"
 
 systemctl enable redis
-VALIDATE $? "enabled redis"
+VALIDATE $? "Enabled redis"
 
 systemctl start redis
-VALIDATE $? "started redis"
+VALIDATE $? "Started redis"
