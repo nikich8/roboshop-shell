@@ -35,7 +35,7 @@ else
 fi
 
 dnf module disable nodejs -y &>> $LOGFILE
-VALIDATE $? "Desabling current Nodejs" "thrid"
+VALIDATE $? "Desabling current Nodejs"
 
 dnf module enable nodejs:18 -y &>> $LOGFILE
 VALIDATE $? "enabling  Nodejs:18"
@@ -55,29 +55,30 @@ fi
 mkdir -p /app &>> $LOGFILE
 VALIDATE $? "Creating app directory"
 
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LOGFILE
-VALIDATE $? "downloading catalogue application"
+curl -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip &>> $LOGFILE
+VALIDATE $? "downloading user application"
 
 cd /app
 
-unzip -o /tmp/catalogue.zip &>> $LOGFILE
-VALIDATE $? "Unziping catalogue"
+unzip -o /tmp/user.zip &>> $LOGFILE
+VALIDATE $? "Unziping user"
 
 npm install &>> $LOGFILE
 VALIDATE $? "Installing dependencies"
-#absolute path,becoz catalogue exist there
-cp /home/centos/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
-VALIDATE $? "copying catalogue service file"
+
+cp /home/centos/roboshop-shell.service /etc/systemd/system/user.service
+
+VALIDATE $? "copying user service file"
 
 systemctl daemon-reload &>> $LOGFILE
-VALIDATE $? "catalogue deamon reload"
+VALIDATE $? "user deamon reload"
 
-systemctl enable catalogue &>> $LOGFILE
-VALIDATE $? "Enabling catalogue"
+systemctl enable user &>> $LOGFILE
+VALIDATE $? "Enabling user"
 
-systemctl start catalogue &>> $LOGFILE
-VALIDATE $? "Starting catalogue"
+systemctl start user &>> $LOGFILE
+VALIDATE $? "Starting user"
 
 cp /home/centos/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 VALIDATE $? "copying mongodb repo"
@@ -86,8 +87,5 @@ dnf install mongodb-org-shell -y &>> $LOGFILE
 VALIDATE $? "Installing mongodb client"
 
 
-mongo --host $MONGODB_HOST </app/schema/catalogue.js
-VALIDATE $? "Loading catalogue data into mongodb"
-
-
-
+mongo --host $MONGODB_HOST </app/schema/user.js
+VALIDATE $? "Loading user data into mongodb"
