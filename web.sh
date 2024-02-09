@@ -52,31 +52,33 @@ else
     echo -e "Roboshop user already exist $Y SKINPING $N"
 fi
 
-dnf install nginx -y
+dnf install nginx -y &>> $LOGFILE
 VALIDATED $? "Insatlling nginx"
 
-systemctl enable nginx
+systemctl enable nginx &>> $LOGFILE
 VALIDATED $? "enable nginx"
 
-systemctl start nginx
+systemctl start nginx &>> $LOGFILE
 VALIDATED $? "starting nginx"
 
 
-rm -rf /usr/share/nginx/html/*
+rm -rf /usr/share/nginx/html/* &>> $LOGFILE
 VALIDATED $? "remove default web site"
 
-curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip
+curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $LOGFILE
 VALIDATED $? "downloaded web application"
 
-cd /usr/share/nginx/html
+cd /usr/share/nginx/html &>> $LOGFILE
 VALIDATED $? "moving nginx html directory"
 
-unzip -o /tmp/web.zip
+unzip -o /tmp/web.zip &>> $LOGFILE
 VALIDATED $? "unziping web"
 
-vim /etc/nginx/default.d/roboshop.conf
+vim /etc/nginx/default.d/roboshop.conf &>> $LOGFILE
 VALIDATED $? "copied roboshop reverse proxy config"
 
-cp /home/centos/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf 
+cp /home/centos/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf &>> $LOGFILE
+VALIDATED $? "copied roboshop reserve proxy config"
 
-systemctl restart nginx
+systemctl restart nginx &>> $LOGFILE
+VALIDATED $? "restarted nginx"
