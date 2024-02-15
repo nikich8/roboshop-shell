@@ -5,7 +5,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-
+MONGDB_HOST=mongodb.nikikdrama.online
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
@@ -52,3 +52,7 @@ VALIDATE $? "Remote access to MongoDB"
 systemctl restart mongod &>> $LOGFILE
 
 VALIDATE $? "Restarting MongoDB"
+
+mongo --host $MONGDB_HOST </app/schema/catalogue.js &>> $LOGFILE
+
+VALIDATE $? "Loading catalouge data into MongoDB"
