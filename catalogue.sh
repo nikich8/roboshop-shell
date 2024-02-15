@@ -1,38 +1,33 @@
 #!/bin/bash
 
 ID=$(id -u)
-
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-
-MONGDB_HOST=mongodb.nikikdrama.online
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
 echo "script started executing at $TIMESTAMP" &>> $LOGFILE
 
-
 VALIDATE(){
     if [ $1 -ne 0 ]
     then
-        echo -e "$2...$R FAILED $N"
+        echo -e "$2 ... $R FAILED $N"
         exit 1
-        
     else
-        echo -e "$2...$G SUCCESS $N"
-    fi      
+        echo -e "$2 ... $G SUCCESS $N"
+    fi
 }
 
 if [ $ID -ne 0 ]
 then
-    echo  -e "$R ERROR: plese run script with root user $N"
-    exit 1
+    echo -e "$R ERROR:: Please run this script with root access $N"
+    exit 1 # you can give other than 0
 else
-    echo "you are root user"
-fi
+    echo "You are root user"
+fi # fi means reverse of if, indicating condition end
 
 dnf module disable nodejs -y &>> $LOGFILE
 VALIDATE $? "Desabling current Nodejs" "thrid"
@@ -46,7 +41,7 @@ VALIDATE $? "Installing nodejs:18"
 id roboshop
 if [ $? -ne 0 ]
 then
-    useradd roboshop &>> $LOGFILE
+    useradd roboshop 
     VALIDATE $? "Creating roboshop user"
 else
     echo -e "Roboshop user already exist $Y SKINPING $N"
