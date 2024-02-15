@@ -1,18 +1,17 @@
 #!/bin/bash
 
 ID=$(id -u)
-
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-MONGODB_HOST=mongodb.nikikdrama.online
+MONGDB_HOST=mongodb.nikikdrama.online
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
-echo "script started exicuting at $TIMESTAMP" &>> $LOGFILE
+echo "script started executing at $TIMESTAMP" &>> $LOGFILE
 
 
 VALIDATE(){
@@ -35,7 +34,7 @@ else
 fi
 
 dnf module disable nodejs -y &>> $LOGFILE
-VALIDATE $? "Desabling current Nodejs" "thrid"
+VALIDATE $? "Disabling current Nodejs" "thrid"
 
 dnf module enable nodejs:18 -y &>> $LOGFILE
 VALIDATE $? "enabling  Nodejs:18"
@@ -85,5 +84,5 @@ dnf install mongodb-org-shell -y &>> $LOGFILE
 VALIDATE $? "Installing mongodb client"
 
 
-mongo --host $MONGODB_HOST </app/schema/user.js
+mongo --host $MONGDB_HOST </app/schema/user.js
 VALIDATE $? "Loading user data into mongodb"

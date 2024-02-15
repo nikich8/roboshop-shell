@@ -7,12 +7,12 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-MONGODB_HOST=mongodb.nikikdrama.online
+MONGDB_HOST=mongodb.nikikdrama.online
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
-echo "script started exicuting at $TIMESTAMP" &>> $LOGFILE
+echo "script started executing at $TIMESTAMP" &>> $LOGFILE
 
 
 VALIDATE(){
@@ -86,7 +86,7 @@ dnf install mongodb-org-shell -y &>> $LOGFILE
 VALIDATE $? "Installing mongodb client"
 
 
-mongo --host $MONGODB_HOST </app/schema/catalogue.js
+mongo --host $MONGDB_HOST </app/schema/catalogue.js
 VALIDATE $? "Loading catalogue data into mongodb"
 
 
